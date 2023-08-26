@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'war'
+    id 'io.freefair.lombok' version '8.0.1'
 }
 
 group 'ru.clevertec'
@@ -22,10 +23,17 @@ tasks.withType(JavaCompile) {
 }
 
 dependencies {
+
+    implementation 'org.yaml:snakeyaml:2.0'
+    implementation 'org.postgresql:postgresql:42.4.3'
+
     compileOnly('jakarta.servlet:jakarta.servlet-api:5.0.0')
+
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+
+    compileOnly 'org.projectlombok:lombok:1.18.4'
 }
 
 test {
