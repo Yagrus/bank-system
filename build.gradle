@@ -25,9 +25,10 @@ tasks.withType(JavaCompile) {
 dependencies {
 
     implementation 'org.yaml:snakeyaml:2.0'
-    implementation 'org.postgresql:postgresql:42.4.3'
+    implementation 'org.postgresql:postgresql:42.6.0'
 
-    compileOnly('jakarta.servlet:jakarta.servlet-api:5.0.0')
+    compileOnly('org.postgresql:postgresql:42.6.0')
+    compileOnly 'jakarta.servlet:jakarta.servlet-api:6.0.0'
 
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")

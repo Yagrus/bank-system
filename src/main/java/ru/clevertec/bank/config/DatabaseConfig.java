@@ -12,9 +12,9 @@ import java.util.Map;
 public class DatabaseConfig {
 
     private static Connection connection;
-    private static final String CONFIG_PATH = "src/main/resources/application.yaml";
+    private static final String CONFIG_PATH = "D:\\projects\\bank\\src\\main\\resources\\application.yaml";
 
-    public static void init(){
+    public static Connection getConnection(){
 
         try {
             Map<String, Map<String,Object>> data = new Yaml()
@@ -24,14 +24,16 @@ public class DatabaseConfig {
             String password = data.get("datasource").get("password").toString();
             String url = data.get("datasource").get("url").toString();
 
+            Class.forName("org.postgresql.Driver").newInstance();
             connection = DriverManager.getConnection(url, username, password);
+            System.out.println("Successful connection");
         } catch (IOException | SQLException e) {
+            System.out.println("Failed connection");
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
-
-    }
-
-    public static Connection getConnection() {
         return connection;
     }
+
 }

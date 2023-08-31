@@ -4,22 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
-import java.time.LocalDateTime;
-
 @Data
 @Builder
 @AllArgsConstructor
-public class Account {
+public class User {
 
     private Long id;
-
-    private String currency;
-
-    private Double balance;
-
-    private LocalDateTime dateOpen;
-
+    private String firstName;
+    private String lastName;
+    private String middleName;
     private Bank bank;
-
-    private User user;
 }
