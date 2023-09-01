@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS accounts (
 
     id        BIGSERIAL PRIMARY KEY,
+    iban      VARCHAR(34) NOT NULL,
     currency  VARCHAR(50) NOT NULL,
     balance   DOUBLE PRECISION NOT NULL,
     date_open TIMESTAMP(6) NOT NULL,

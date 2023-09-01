@@ -1,7 +1,6 @@
 package ru.clevertec.bank.service.impl;
 
-import ru.clevertec.bank.dao.Repository;
-import ru.clevertec.bank.dao.impl.UserRepository;
+import ru.clevertec.bank.dao.UserRepository;
 import ru.clevertec.bank.model.User;
 import ru.clevertec.bank.service.UserService;
 
@@ -9,7 +8,7 @@ import java.util.List;
 
 public class UserServiceImpl implements UserService {
 
-    Repository<User> repository;
+    UserRepository repository;
 
     public UserServiceImpl(){
         repository = new UserRepository();

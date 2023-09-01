@@ -1,7 +1,6 @@
-package ru.clevertec.bank.dao.impl;
+package ru.clevertec.bank.dao;
 
 import ru.clevertec.bank.config.DatabaseConfig;
-import ru.clevertec.bank.dao.Repository;
 import ru.clevertec.bank.model.Transaction;
 
 import java.sql.Connection;
@@ -13,7 +12,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TransactionRepository implements Repository<Transaction> {
+public class TransactionRepository{
 
     private Connection connection = DatabaseConfig.getConnection();
     private final String INSERT_REQUEST = "INSERT INTO transactions (id, price, type, date, comment, account_id)" +
@@ -23,7 +22,6 @@ public class TransactionRepository implements Repository<Transaction> {
     private final  String UPDATE_REQUEST = "UPDATE transactions SET price=?, type=?, date=?, comment=?, account_id=? WHERE id = ?";
     private final  String DELETE_REQUEST = "DELETE FROM transactions WHERE id = ?";
 
-    @Override
     public void save(Transaction transaction) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_REQUEST);
@@ -43,7 +41,6 @@ public class TransactionRepository implements Repository<Transaction> {
 
     }
 
-    @Override
     public Transaction findById(long id) {
         AccountRepository repository = new AccountRepository();
         Transaction transaction = null;
@@ -71,7 +68,6 @@ public class TransactionRepository implements Repository<Transaction> {
         return transaction;
     }
 
-    @Override
     public List<Transaction> findAll() {
         AccountRepository repository = new AccountRepository();
         List<Transaction> list = new ArrayList<>();
@@ -102,7 +98,6 @@ public class TransactionRepository implements Repository<Transaction> {
         return list;
     }
 
-    @Override
     public void update(Transaction transaction) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_REQUEST);
@@ -121,7 +116,6 @@ public class TransactionRepository implements Repository<Transaction> {
 
     }
 
-    @Override
     public void delete(Transaction transaction) {
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_REQUEST);

@@ -1,7 +1,6 @@
-package ru.clevertec.bank.dao.impl;
+package ru.clevertec.bank.dao;
 
 import ru.clevertec.bank.config.DatabaseConfig;
-import ru.clevertec.bank.dao.Repository;
 import ru.clevertec.bank.model.Bank;
 
 import java.sql.Connection;
@@ -12,7 +11,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BankRepository implements Repository<Bank> {
+public class BankRepository {
 
     private Connection connection = DatabaseConfig.getConnection();
     private final String INSERT_REQUEST = "INSERT INTO banks (id, bic, name) VALUES (?, ?, ?)";
@@ -21,7 +20,6 @@ public class BankRepository implements Repository<Bank> {
     private final  String UPDATE_REQUEST = "UPDATE banks SET bic=?, name=? WHERE id = ?";
     private final  String DELETE_REQUEST = "DELETE FROM banks WHERE id = ?";
 
-    @Override
     public void save(Bank bank) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_REQUEST);
@@ -40,7 +38,6 @@ public class BankRepository implements Repository<Bank> {
 
     }
 
-    @Override
     public Bank findById(long id) {
         Bank bank = null;
 
@@ -65,7 +62,6 @@ public class BankRepository implements Repository<Bank> {
         return bank;
     }
 
-    @Override
     public List<Bank> findAll() {
         List<Bank> list = new ArrayList<>();
 
@@ -92,7 +88,6 @@ public class BankRepository implements Repository<Bank> {
         return list;
     }
 
-    @Override
     public void update(Bank bank) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_REQUEST);
@@ -107,7 +102,6 @@ public class BankRepository implements Repository<Bank> {
         }
     }
 
-    @Override
     public void delete(Bank bank) {
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_REQUEST);

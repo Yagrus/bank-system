@@ -1,15 +1,15 @@
 package ru.clevertec.bank.service.impl;
 
-import ru.clevertec.bank.dao.Repository;
-import ru.clevertec.bank.dao.impl.AccountRepository;
+import ru.clevertec.bank.dao.AccountRepository;
 import ru.clevertec.bank.model.Account;
 import ru.clevertec.bank.service.AccountService;
+import ru.clevertec.bank.util.Iban;
 
 import java.util.List;
 
 public class AccountServiceImpl implements AccountService {
 
-    Repository<Account> repository;
+    AccountRepository repository;
 
     public AccountServiceImpl(){
         repository = new AccountRepository();
@@ -17,6 +17,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void create(Account account) {
+        account.setIban(Iban.create(account));
         repository.save(account);
     }
 

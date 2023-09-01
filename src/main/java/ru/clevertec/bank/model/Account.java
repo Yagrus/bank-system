@@ -13,6 +13,8 @@ public class Account {
 
     private Long id;
 
+    private String iban;
+
     private String currency;
 
     private Double balance;

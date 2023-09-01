@@ -1,7 +1,6 @@
 package ru.clevertec.bank.service.impl;
 
-import ru.clevertec.bank.dao.Repository;
-import ru.clevertec.bank.dao.impl.BankRepository;
+import ru.clevertec.bank.dao.BankRepository;
 import ru.clevertec.bank.model.Bank;
 import ru.clevertec.bank.service.BankService;
 
@@ -9,7 +8,7 @@ import java.util.List;
 
 public class BankServiceImpl implements BankService {
 
-    Repository<Bank> repository;
+    BankRepository repository;
 
     public BankServiceImpl(){
         repository = new BankRepository();

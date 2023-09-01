@@ -1,7 +1,6 @@
-package ru.clevertec.bank.dao.impl;
+package ru.clevertec.bank.dao;
 
 import ru.clevertec.bank.config.DatabaseConfig;
-import ru.clevertec.bank.dao.Repository;
 import ru.clevertec.bank.model.Account;
 
 import java.sql.Connection;
@@ -14,27 +13,29 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AccountRepository implements Repository<Account> {
+public class AccountRepository {
 
     private Connection connection = DatabaseConfig.getConnection();
-    private final String INSERT_REQUEST = "INSERT INTO accounts (id, currency, balance, date_open, user_id, bank_id)" +
-            " VALUES (?, ?, ?, ?, ?, ?)";
+    private final String INSERT_REQUEST = "INSERT INTO accounts (id, iban, currency, balance, date_open, user_id, bank_id)" +
+            " VALUES (?, ?, ?, ?, ?, ?, ?)";
     private final  String FIND_BY_ID_REQUEST = "SELECT * FROM accounts WHERE id = ";
     private final  String FIND_ALL_REQUEST = "SELECT * FROM accounts";
     private final  String UPDATE_REQUEST = "UPDATE accounts SET currency=?, balance=?, date_open=?, user_id=?, bank_id=? WHERE id = ?";
+
+    private final String UPDATE_BALANCE = "UPDATE accounts SET balance=? WHERE id = ?";
     private final  String DELETE_REQUEST = "DELETE FROM accounts WHERE id = ?";
 
-    @Override
     public void save(Account account) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_REQUEST);
 
             preparedStatement.setLong(1,account.getId());
-            preparedStatement.setString(2,account.getCurrency());
-            preparedStatement.setDouble(3,account.getBalance());
-            preparedStatement.setObject(4, account.getDateOpen());
-            preparedStatement.setLong(5, account.getUser().getId());
-            preparedStatement.setLong(6, account.getBank().getId());
+            preparedStatement.setString(2, account.getIban());
+            preparedStatement.setString(3,account.getCurrency());
+            preparedStatement.setDouble(4,account.getBalance());
+            preparedStatement.setObject(5, account.getDateOpen());
+            preparedStatement.setLong(6, account.getUser().getId());
+            preparedStatement.setLong(7, account.getBank().getId());
 
             preparedStatement.close();
 
@@ -44,7 +45,6 @@ public class AccountRepository implements Repository<Account> {
 
     }
 
-    @Override
     public Account findById(long id) {
         BankRepository bankRepository = new BankRepository();
         UserRepository userRepository = new UserRepository();
@@ -58,6 +58,7 @@ public class AccountRepository implements Repository<Account> {
             if(resultSet != null){
                 account =  Account.builder()
                         .id(resultSet.getLong("id"))
+                        .iban(resultSet.getString("iban"))
                         .currency(resultSet.getString("currency"))
                         .balance(resultSet.getDouble("balance"))
                         .dateOpen(resultSet.getObject("date_open", LocalDateTime.class))
@@ -73,7 +74,6 @@ public class AccountRepository implements Repository<Account> {
         return account;
     }
 
-    @Override
     public List<Account> findAll() {
         BankRepository bankRepository = new BankRepository();
         UserRepository userRepository = new UserRepository();
@@ -88,6 +88,7 @@ public class AccountRepository implements Repository<Account> {
                 while (resultSet.next()) {
                     list.add(Account.builder()
                             .id(resultSet.getLong("id"))
+                            .iban(resultSet.getString("iban"))
                             .currency(resultSet.getString("currency"))
                             .balance(resultSet.getDouble("balance"))
                             .dateOpen(resultSet.getObject("date_open", LocalDateTime.class))
@@ -105,7 +106,19 @@ public class AccountRepository implements Repository<Account> {
         return list;
     }
 
-    @Override
+    public void updateBalance(Account account){
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_BALANCE);
+
+            preparedStatement.setDouble(1,account.getBalance());
+            preparedStatement.setLong(2,account.getId());
+
+            preparedStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void update(Account account) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_REQUEST);
@@ -124,7 +137,6 @@ public class AccountRepository implements Repository<Account> {
 
     }
 
-    @Override
     public void delete(Account account) {
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_REQUEST);

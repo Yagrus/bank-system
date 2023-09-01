@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface TransactionService {
 
+    public void changeBalance(Transaction transaction, long user_id);
+
     public void create(Transaction transaction);
 
     public List<Transaction> getAll();

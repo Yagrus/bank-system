@@ -1,7 +1,6 @@
-package ru.clevertec.bank.dao.impl;
+package ru.clevertec.bank.dao;
 
 import ru.clevertec.bank.config.DatabaseConfig;
-import ru.clevertec.bank.dao.Repository;
 import ru.clevertec.bank.model.User;
 
 import java.sql.Connection;
@@ -12,7 +11,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserRepository implements Repository<User> {
+public class UserRepository{
 
     private Connection connection = DatabaseConfig.getConnection();
     private final String INSERT_REQUEST = "INSERT INTO users (id, last_name, first_name, middle_name, bank_id)" +
@@ -22,7 +21,6 @@ public class UserRepository implements Repository<User> {
     private final  String UPDATE_REQUEST = "UPDATE users SET last_name=?, first_name=?, middle_name=?, bank_id=? WHERE id = ?";
     private final  String DELETE_REQUEST = "DELETE FROM users WHERE id = ?";
 
-    @Override
     public void save(User user) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_REQUEST);
@@ -41,7 +39,6 @@ public class UserRepository implements Repository<User> {
 
     }
 
-    @Override
     public User findById(long id) {
         BankRepository repository = new BankRepository();
         User user = null;
@@ -68,7 +65,6 @@ public class UserRepository implements Repository<User> {
         return user;
     }
 
-    @Override
     public List<User> findAll() {
         BankRepository repository = new BankRepository();
         List<User> list = new ArrayList<>();
@@ -98,7 +94,6 @@ public class UserRepository implements Repository<User> {
         return list;
     }
 
-    @Override
     public void update(User user) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_REQUEST);
@@ -116,7 +111,6 @@ public class UserRepository implements Repository<User> {
 
     }
 
-    @Override
     public void delete(User user) {
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_REQUEST);
