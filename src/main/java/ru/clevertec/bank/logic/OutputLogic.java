@@ -5,10 +5,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * The OutputLogic class is responsible for writing receipt data to a txt file.
+ */
 public class OutputLogic {
 
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd.hh.mm.ss");

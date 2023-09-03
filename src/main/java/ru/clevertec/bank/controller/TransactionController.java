@@ -17,6 +17,10 @@ import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * The TransactionController class represents the controller for transaction-related operations.
+ * It handles requests related to transactions and interacts with the TransactionService.
+ */
 @WebServlet("/transaction")
 public class TransactionController extends HttpServlet {
 

@@ -15,6 +15,10 @@ import ru.clevertec.bank.service.impl.TransactionServiceImpl;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
+/**
+ * The BalanceController class represents the controller for account-related operations.
+ * It handles requests related to accounts and interacts with the AccountService.
+ */
 @WebServlet("/balance")
 public class BalanceController extends HttpServlet {
 

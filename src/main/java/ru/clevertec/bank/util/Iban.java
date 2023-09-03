@@ -2,8 +2,18 @@ package ru.clevertec.bank.util;
 
 import ru.clevertec.bank.model.Account;
 
+/**
+ * The Iban class creates a new iban for the newly created account.
+ */
 public class Iban {
 
+    /**
+     * The method creates an iban that contains
+     * the country code, check number,
+     * bic bank code, balance account, user ID.
+     *
+     * For example: BY21 GTFS 0543 0000 0000 0000 0123
+     */
     public static String create(Account account){
         StringBuilder iban = new StringBuilder("BY"); // код страны
 

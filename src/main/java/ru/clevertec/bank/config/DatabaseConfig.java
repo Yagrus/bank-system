@@ -9,6 +9,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Map;
 
+/**
+ * The DatabaseConfig class is responsible for configuring the application and its components.
+ * It provides methods to set up various settings database connection.
+ */
 public class DatabaseConfig {
 
     private static Connection connection;

@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/README.md" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/check/Check2023-09-01.txt" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/main/java/ru/clevertec/bank/aop/annotation/Logging.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/ru/clevertec/bank/aop/aspect/LoggingAspect.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/ru/clevertec/bank/aop/pointcut/CustomPointcut.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/database/dml/insert-info.sql" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/postgresql-42.5.1.jar" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/test/java/service/AccountServiceTest.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/test/java/service/TransactionServiceTest.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/test/java/service/UserServiceTest.java" charset="UTF-8" />
     <file url="PROJECT" charset="windows-1251" />
   </component>

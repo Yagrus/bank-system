@@ -14,6 +14,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
+/**
+ * The UserController class represents the controller for user-related operations.
+ * It handles requests related to users and interacts with the UserService.
+ */
 @WebServlet("/user")
 public class UserController extends HttpServlet {
 

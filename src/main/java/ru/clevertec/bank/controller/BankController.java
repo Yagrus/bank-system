@@ -16,6 +16,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
+/**
+ * The BankController class represents the controller for bank-related operations.
+ * It handles requests related to banks and interacts with the BankService.
+ */
 @WebServlet("/bank")
 public class BankController extends HttpServlet {
 

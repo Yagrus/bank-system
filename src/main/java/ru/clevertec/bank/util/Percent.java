@@ -10,6 +10,10 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The Percent class that is responsible for calculating interest
+ * on the balance every 30 seconds in the end of month.
+ */
 public class Percent implements Runnable{
 
     AccountRepository repository;

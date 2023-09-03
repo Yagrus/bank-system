@@ -19,6 +19,10 @@ import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * The AccountController class represents the controller for account-related operations.
+ * It handles requests related to accounts and interacts with the AccountService.
+ */
 @WebServlet("/account")
 public class AccountController extends HttpServlet {
 

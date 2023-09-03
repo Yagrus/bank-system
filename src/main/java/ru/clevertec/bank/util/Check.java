@@ -9,6 +9,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * The Check class creates a new check with information about the transaction.
+ */
 public class Check {
 
     private static Date dateNow = new Date();
