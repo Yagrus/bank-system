@@ -15,7 +15,7 @@ public class BankRepository {
 
     private Connection connection = DatabaseConfig.getConnection();
     private final String INSERT_REQUEST = "INSERT INTO banks (id, bic, name) VALUES (?, ?, ?)";
-    private final  String FIND_BY_ID_REQUEST = "SELECT * FROM banks WHERE id = ";
+    private final  String FIND_BY_ID_REQUEST = "SELECT * FROM banks WHERE id = ?";
     private final  String FIND_ALL_REQUEST = "SELECT * FROM banks";
     private final  String UPDATE_REQUEST = "UPDATE banks SET bic=?, name=? WHERE id = ?";
     private final  String DELETE_REQUEST = "DELETE FROM banks WHERE id = ?";
@@ -42,17 +42,18 @@ public class BankRepository {
         Bank bank = null;
 
         try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(FIND_BY_ID_REQUEST + id);
-            statement.close();
+            PreparedStatement statement  = connection.prepareStatement(FIND_BY_ID_REQUEST);
+            statement.setLong(1,id);
+            ResultSet resultSet = statement.executeQuery();
 
             if(resultSet != null){
-                bank = Bank.builder()
-                        .id(resultSet.getLong("id"))
-                        .bic(resultSet.getString("bic"))
-                        .name(resultSet.getString("name"))
-                        .build();
-                resultSet.close();
+                while (resultSet.next()) {
+                    bank = Bank.builder()
+                            .id(resultSet.getLong("id"))
+                            .bic(resultSet.getString("bic"))
+                            .name(resultSet.getString("name"))
+                            .build();
+                }
             }
 
         } catch (SQLException e) {
@@ -90,13 +91,14 @@ public class BankRepository {
 
     public void update(Bank bank) {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_REQUEST);
+            PreparedStatement statement = connection.prepareStatement(UPDATE_REQUEST);
 
-            preparedStatement.setString(1, bank.getBic());
-            preparedStatement.setString(2, bank.getName());
-            preparedStatement.setLong(3, bank.getId());
+            statement.setString(1, bank.getBic());
+            statement.setString(2, bank.getName());
+            statement.setLong(3, bank.getId());
+            statement.executeUpdate();
 
-            preparedStatement.close();
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -104,11 +106,12 @@ public class BankRepository {
 
     public void delete(Bank bank) {
         try{
-            PreparedStatement preparedStatement = connection.prepareStatement(DELETE_REQUEST);
+            PreparedStatement statement = connection.prepareStatement(DELETE_REQUEST);
 
-            preparedStatement.setLong(1,bank.getId());
+            statement.setLong(1,bank.getId());
+            statement.executeUpdate();
 
-            preparedStatement.close();
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -18,7 +18,7 @@ public class AccountRepository {
     private Connection connection = DatabaseConfig.getConnection();
     private final String INSERT_REQUEST = "INSERT INTO accounts (id, iban, currency, balance, date_open, user_id, bank_id)" +
             " VALUES (?, ?, ?, ?, ?, ?, ?)";
-    private final  String FIND_BY_ID_REQUEST = "SELECT * FROM accounts WHERE id = ";
+    private final  String FIND_BY_ID_REQUEST = "SELECT * FROM accounts WHERE id = ?";
     private final  String FIND_ALL_REQUEST = "SELECT * FROM accounts";
     private final  String UPDATE_REQUEST = "UPDATE accounts SET currency=?, balance=?, date_open=?, user_id=?, bank_id=? WHERE id = ?";
 
@@ -27,17 +27,20 @@ public class AccountRepository {
 
     public void save(Account account) {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(INSERT_REQUEST);
+            PreparedStatement statement = connection.prepareStatement(INSERT_REQUEST);
 
-            preparedStatement.setLong(1,account.getId());
-            preparedStatement.setString(2, account.getIban());
-            preparedStatement.setString(3,account.getCurrency());
-            preparedStatement.setDouble(4,account.getBalance());
-            preparedStatement.setObject(5, account.getDateOpen());
-            preparedStatement.setLong(6, account.getUser().getId());
-            preparedStatement.setLong(7, account.getBank().getId());
+            statement.setLong(1,account.getId());
+            statement.setString(2, account.getIban());
+            statement.setString(3,account.getCurrency());
+            statement.setDouble(4,account.getBalance());
+            statement.setObject(5, account.getDateOpen());
+            statement.setLong(6, account.getUser().getId());
+            statement.setLong(7, account.getBank().getId());
+            int rows = statement.executeUpdate();
 
-            preparedStatement.close();
+            System.out.printf("%d rows added", rows);
+
+            statement.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -51,22 +54,24 @@ public class AccountRepository {
         Account account = null;
 
         try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(FIND_BY_ID_REQUEST + id);
-            statement.close();
+            PreparedStatement statement  = connection.prepareStatement(FIND_BY_ID_REQUEST);
+            statement.setLong(1,id);
+            ResultSet resultSet = statement.executeQuery();
 
             if(resultSet != null){
-                account =  Account.builder()
-                        .id(resultSet.getLong("id"))
-                        .iban(resultSet.getString("iban"))
-                        .currency(resultSet.getString("currency"))
-                        .balance(resultSet.getDouble("balance"))
-                        .dateOpen(resultSet.getObject("date_open", LocalDateTime.class))
-                        .user(userRepository.findById(resultSet.getLong("user_id")))
-                        .bank(bankRepository.findById(resultSet.getLong("bank_id")))
-                        .build();
-                resultSet.close();
+                while (resultSet.next()) {
+                    account = Account.builder()
+                            .id(resultSet.getLong("id"))
+                            .iban(resultSet.getString("iban"))
+                            .currency(resultSet.getString("currency"))
+                            .balance(resultSet.getDouble("balance"))
+                            .dateOpen(resultSet.getObject("date_open", LocalDateTime.class))
+                            .user(userRepository.findById(resultSet.getLong("user_id")))
+                            .bank(bankRepository.findById(resultSet.getLong("bank_id")))
+                            .build();
+                }
             }
+            statement.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -82,7 +87,6 @@ public class AccountRepository {
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(FIND_ALL_REQUEST);
-            statement.close();
 
             if (resultSet != null) {
                 while (resultSet.next()) {
@@ -98,6 +102,7 @@ public class AccountRepository {
                     );
                 }
             }
+            statement.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -108,12 +113,13 @@ public class AccountRepository {
 
     public void updateBalance(Account account){
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_BALANCE);
+            PreparedStatement statement = connection.prepareStatement(UPDATE_BALANCE);
 
-            preparedStatement.setDouble(1,account.getBalance());
-            preparedStatement.setLong(2,account.getId());
+            statement.setDouble(1,account.getBalance());
+            statement.setLong(2,account.getId());
+            statement.executeUpdate();
 
-            preparedStatement.close();
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -121,16 +127,17 @@ public class AccountRepository {
 
     public void update(Account account) {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_REQUEST);
+            PreparedStatement statement = connection.prepareStatement(UPDATE_REQUEST);
 
-            preparedStatement.setString(1,account.getCurrency());
-            preparedStatement.setDouble(2,account.getBalance());
-            preparedStatement.setTimestamp(3, Timestamp.valueOf(account.getDateOpen()));
-            preparedStatement.setLong(4, account.getUser().getId());
-            preparedStatement.setLong(5, account.getBank().getId());
-            preparedStatement.setLong(6,account.getId());
+            statement.setString(1,account.getCurrency());
+            statement.setDouble(2,account.getBalance());
+            statement.setTimestamp(3, Timestamp.valueOf(account.getDateOpen()));
+            statement.setLong(4, account.getUser().getId());
+            statement.setLong(5, account.getBank().getId());
+            statement.setLong(6,account.getId());
+            statement.executeUpdate();
 
-            preparedStatement.close();
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -139,11 +146,12 @@ public class AccountRepository {
 
     public void delete(Account account) {
         try{
-            PreparedStatement preparedStatement = connection.prepareStatement(DELETE_REQUEST);
+            PreparedStatement statement = connection.prepareStatement(DELETE_REQUEST);
 
-            preparedStatement.setLong(1,account.getId());
+            statement.setLong(1,account.getId());
+            statement.executeUpdate();
 
-            preparedStatement.close();
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -16,22 +16,23 @@ public class DatabaseConfig {
 
     public static Connection getConnection(){
 
-        try {
-            Map<String, Map<String,Object>> data = new Yaml()
-                    .load(new FileReader(CONFIG_PATH));
+        if(connection == null) {
+            try {
+                Map<String, Map<String, Object>> data = new Yaml()
+                        .load(new FileReader(CONFIG_PATH));
 
-            String username = data.get("datasource").get("username").toString();
-            String password = data.get("datasource").get("password").toString();
-            String url = data.get("datasource").get("url").toString();
+                String username = data.get("datasource").get("username").toString();
+                String password = data.get("datasource").get("password").toString();
+                String url = data.get("datasource").get("url").toString();
 
-            Class.forName("org.postgresql.Driver").newInstance();
-            connection = DriverManager.getConnection(url, username, password);
-            System.out.println("Successful connection");
-        } catch (IOException | SQLException | ClassNotFoundException |
-                 InstantiationException | IllegalAccessException e)
-        {
-            System.out.println("Failed connection");
-            throw new RuntimeException(e);
+                Class.forName("org.postgresql.Driver").newInstance();
+                connection = DriverManager.getConnection(url, username, password);
+                System.out.println("Successful connection");
+            } catch (IOException | SQLException | ClassNotFoundException |
+                     InstantiationException | IllegalAccessException e) {
+                System.out.println("Failed connection");
+                throw new RuntimeException(e);
+            }
         }
         return connection;
     }
