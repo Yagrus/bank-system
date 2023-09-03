@@ -1,11 +1,13 @@
 package ru.clevertec.bank.service.impl;
 
+import ru.clevertec.bank.aop.annotation.Logging;
 import ru.clevertec.bank.dao.BankRepository;
 import ru.clevertec.bank.model.Bank;
 import ru.clevertec.bank.service.BankService;
 
 import java.util.List;
 
+@Logging
 public class BankServiceImpl implements BankService {
 
     BankRepository repository;

@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import ru.clevertec.bank.aop.annotation.Logging;
 import ru.clevertec.bank.model.User;
 import ru.clevertec.bank.service.UserService;
 import ru.clevertec.bank.service.impl.UserServiceImpl;

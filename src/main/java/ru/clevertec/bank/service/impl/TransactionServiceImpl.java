@@ -1,5 +1,6 @@
 package ru.clevertec.bank.service.impl;
 
+import ru.clevertec.bank.aop.annotation.Logging;
 import ru.clevertec.bank.dao.AccountRepository;
 import ru.clevertec.bank.dao.TransactionRepository;
 import ru.clevertec.bank.dao.UserRepository;
@@ -12,6 +13,7 @@ import ru.clevertec.bank.service.TransactionService;
 
 import java.util.List;
 
+@Logging
 public class TransactionServiceImpl implements TransactionService {
 
     TransactionRepository transactionRepository;

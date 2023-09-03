@@ -1,5 +1,7 @@
 package ru.clevertec.bank.service.impl;
 
+import lombok.extern.slf4j.Slf4j;
+import ru.clevertec.bank.aop.annotation.Logging;
 import ru.clevertec.bank.dao.AccountRepository;
 import ru.clevertec.bank.model.Account;
 import ru.clevertec.bank.service.AccountService;
@@ -7,6 +9,7 @@ import ru.clevertec.bank.util.Iban;
 
 import java.util.List;
 
+@Logging
 public class AccountServiceImpl implements AccountService {
 
     AccountRepository repository;

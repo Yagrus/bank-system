@@ -27,10 +27,10 @@ public class DatabaseConfig {
             Class.forName("org.postgresql.Driver").newInstance();
             connection = DriverManager.getConnection(url, username, password);
             System.out.println("Successful connection");
-        } catch (IOException | SQLException e) {
+        } catch (IOException | SQLException | ClassNotFoundException |
+                 InstantiationException | IllegalAccessException e)
+        {
             System.out.println("Failed connection");
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
         return connection;
